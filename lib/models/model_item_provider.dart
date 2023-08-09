@@ -5,6 +5,7 @@ import 'model_item.dart';
 class ItemProvider with ChangeNotifier {
   late CollectionReference itemsReference;
   List<Item> items = [];
+  List<Item> searchItem = [];
 
   ItemProvider({reference}) {
     itemsReference = reference ?? FirebaseFirestore.instance.collection('items');
@@ -16,6 +17,19 @@ class ItemProvider with ChangeNotifier {
         return Item.fromSnapshot(document);
       }).toList();
     });
+    notifyListeners();
+  }
+
+  Future<void> search(String query) async {
+    searchItem = [];
+    if (query.length == 0) {
+      return;
+    }
+    for (Item item in items) {
+      if (item.title.contains(query)) {
+        searchItem.add(item);
+      }
+    }
     notifyListeners();
   }
 }

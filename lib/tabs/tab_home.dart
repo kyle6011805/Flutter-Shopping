@@ -25,7 +25,9 @@ class TabHome extends StatelessWidget{
               itemBuilder: (context, index) {
                 return GridTile(
                     child: InkWell(
-                      onTap: () { },
+                      onTap: () {
+                        Navigator.pushNamed(context, '/detail', arguments: itemProvider.items[index]);
+                      },
                       child: Container(
                         padding: EdgeInsets.all(10),
                         child: Column(
